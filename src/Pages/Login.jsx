@@ -1,7 +1,80 @@
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Authcontext, auth } from "../Provider/Authprovider";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 // import { Helmet } from "react-helmet";
 
+// eslint-disable-next-line no-unused-vars
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Login = () => {
+    const {signin}=useContext(Authcontext);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const googleProvider = new GoogleAuthProvider();
+  
+    // const [registerError, setRegisterError] = useState('');
+    // eslint-disable-next-line no-unused-vars
+    const [mgssuccess, setSuccess] = useState('');
+    // const [showPassword, setShowPassword] = useState(false);
+    // const emailRef = useRef(null);
+    const [value, setValue] = useState('');
+  
+    const handleLogin = (e) => {
+      e.preventDefault();
+      const form=e.target;
+      const email=form.email.value;
+      const password=form.password.value;
+      console.log(email,password);
+  
+      // Check if the checkbox is not accepted
+      const accepted = e.target.myCheckbox.checked;
+  
+      if (!accepted) {
+        toast.error('You must accept the terms and conditions');
+        return;
+      }
+  
+      // Continue with the login process
+      if (email && password) {
+        signin(email, password)
+          .then(result => {
+            toast.success('Login Successful');
+            setSuccess(result.user);
+            // const user={email};
+            navigate(location?.state ? location.state : '/');
+            // get access token
+            // axios.post('https://backend-nu-sage-10.vercel.app/jwt',user,{withCredentials:true})
+            // .then(res=>{
+            //   console.log(res.data)
+            // })
+  
+          })
+          .catch(error => {
+            toast.error(error.message);
+            console.log(error.message);
+          });
+      }
+    }
+  
+    // google signin
+    const googleSignin = () => {
+      signInWithPopup(auth, googleProvider)
+        .then(res => {
+          setValue(res);
+          if (res.user) {
+            // Successful login with Google, redirect to the root page
+            toast.success('Login Successful');
+            navigate('/');
+          } else {
+            // Login with Google was not successful, stay on the login page
+          }
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
+    };
     return (
         <div>
         {/* <Helmet>
@@ -33,7 +106,7 @@ const Login = () => {
   
                     <div className="mt-5">
                       <button 
-                    //   onClick={googleSignin}
+                      onClick={googleSignin}
                         type="button"
                         className="w-full py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                       >
@@ -70,7 +143,7 @@ const Login = () => {
   
                       {/* <!-- Form --> */}
                       <form
-                    //    onSubmit={handleLogin}
+                       onSubmit={handleLogin}
                        >
                         <div className="grid gap-y-4">
                           {/* <!-- Form Group --> */}

@@ -6,10 +6,10 @@ const Destination = () => {
        <div className="flex flex-row justify-between items-center">
         <div>
         <h3 className="text-3xl italic">Destinaion</h3>
-        <h2 className="text-5xl font-bold my-5">Top Destrinations</h2>
+        <h2 className="text-5xl font-bold my-5">All Destrinations</h2>
         </div>
         <div>
-            <Link to={'destrination'}><a className="underline">see all</a></Link>
+            <Link to={'/destrination'}><a className="underline">see all</a></Link>
         </div>
        </div>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
@@ -101,6 +101,7 @@ const Destination = () => {
             </div>
           </a>
         </div>
+
       </div>
     </div>
   );

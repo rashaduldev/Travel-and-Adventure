@@ -1,7 +1,90 @@
-import { Link, NavLink } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Authcontext, auth } from "../Provider/Authprovider";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth"; 
+// eslint-disable-next-line no-unused-vars
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Registation = () => {
+
+    const [alerror, setAlError] = useState("");
+    const [success, setSuccess] = useState("");
+    const [value, setValue] = useState('');
+    const { createuser } = useContext(Authcontext);
+    const navigate = useNavigate();
+    const googleProvider = new GoogleAuthProvider();
+  
+    const handlesignup = (event) => {
+      event.preventDefault();
+      const form = event.target;
+      const name = form.name.value;
+      const email = form.email.value;
+      const password = form.password.value;
+      const photourl = form.photo_url.value;
+      const accepted = event.target.myCheckbox.checked;
+  
+      if (password.length < 6) {
+        toast.error('Password must be at least 6 characters long');
+        return;
+      } else if (!/^.*?[A-Z].*?$/.test(password)) {
+        toast.error('Password must contain at least 1 uppercase letter');
+        return;
+      } else if (!/[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password)) {
+        toast.error('Password must contain at least 1 special character');
+        return;
+      } else if (!accepted) {
+        toast.error('You must accept the terms and conditions');
+        return;
+      } else {
+        setAlError("");
+        if (email) {
+          createuser(email, password)
+            .then((result) => {
+              const auth = getAuth();
+              // Set the user's name and photo URL in their profile
+              updateProfile(auth.currentUser, {
+                displayName: name,
+                photoURL: photourl,
+              })
+                .then(() => {
+                  toast.success('Registration Successful');
+                  console.log(result.user);
+                  setSuccess(result.user);
+                  navigate('/');
+                })
+                .catch((profileError) => {
+                  toast.error('Failed to update user profile information');
+                  console.log(profileError);
+                });
+            })
+            .catch((error) => {
+              toast.error('This Email Already in Register. Please go to the Login page');
+              console.log(error);
+            });
+        }
+      }
+    };
+  
+        // google signin
+    const googleSignin = () => {
+      signInWithPopup(auth, googleProvider)
+        .then(res => {
+          setValue(res);
+          if (res.user) {
+            // Successful login with Google, redirect to the root page
+            toast.success('Login Successful');
+            navigate('/');
+          } else {
+            // Login with Google was not successful, stay on the login page
+          }
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
+    };
     return (
         <div >
         {/* <Helmet>
@@ -31,7 +114,7 @@ const Registation = () => {
 
                <div className="mt-5">
                  <button
-                //  onClick={googleSignin}
+                 onClick={googleSignin}
                    type="button"
                    className="w-full py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                  >
@@ -68,7 +151,7 @@ const Registation = () => {
 
                  {/* <!-- Form --> */}
                  <form 
-                //  onSubmit={handlesignup}
+                 onSubmit={handlesignup}
                  >
                    <div className="grid gap-y-4">
                      {/* <!-- Form Group --> */}
