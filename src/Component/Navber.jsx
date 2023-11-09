@@ -18,7 +18,7 @@ const Navber = () => {
   Home
 </NavLink>
     <NavLink
-  to="/allservices"
+  to="/about"
   style={({ isActive, isPending, isTransitioning }) => {
     return {
       fontWeight: isActive ? "bold" : "",
@@ -27,10 +27,10 @@ const Navber = () => {
     };
   }}
 >
-Services
+About
 </NavLink>
     <NavLink
-  to="/manageservice"
+  to="/tours"
   style={({ isActive, isPending, isTransitioning }) => {
     return {
       fontWeight: isActive ? "bold" : "",
@@ -39,7 +39,55 @@ Services
     };
   }}
 >
-Manage-Services
+Tours
+</NavLink>
+    <NavLink
+  to="/destination"
+  style={({ isActive, isPending, isTransitioning }) => {
+    return {
+      fontWeight: isActive ? "bold" : "",
+      color: isPending ? "red" : "black",
+      viewTransitionName: isTransitioning ? "slide" : "",
+    };
+  }}
+>
+Dastination
+</NavLink>
+    <NavLink
+  to="/blog"
+  style={({ isActive, isPending, isTransitioning }) => {
+    return {
+      fontWeight: isActive ? "bold" : "",
+      color: isPending ? "red" : "black",
+      viewTransitionName: isTransitioning ? "slide" : "",
+    };
+  }}
+>
+Blog
+</NavLink>
+    <NavLink
+  to="/page"
+  style={({ isActive, isPending, isTransitioning }) => {
+    return {
+      fontWeight: isActive ? "bold" : "",
+      color: isPending ? "red" : "black",
+      viewTransitionName: isTransitioning ? "slide" : "",
+    };
+  }}
+>
+Page
+</NavLink>
+    <NavLink
+  to="/contact"
+  style={({ isActive, isPending, isTransitioning }) => {
+    return {
+      fontWeight: isActive ? "bold" : "",
+      color: isPending ? "red" : "black",
+      viewTransitionName: isTransitioning ? "slide" : "",
+    };
+  }}
+>
+Contact
 </NavLink>
     </>
   );
