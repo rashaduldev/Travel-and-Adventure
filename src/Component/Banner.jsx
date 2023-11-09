@@ -1,8 +1,10 @@
+import BannerSearch from "./BannerSearch";
 
 
 const Banner = () => {
     return (
-        <div className="h-screen bg-blue-500 mx-10 my-10  rounded-lg">
+       <div className="relative">
+         <div className="h-screen bg-blue-500 mx-10 my-10  rounded-lg">
             <div className="flex flex-col md:flex-row justify-around items-center h-full  rounded-lg">
                 <div className="flex-1 text-left pl-10 space-y-7">
                     <h2 className="text-5xl text-amber-300 italic">Explorer The</h2>
@@ -15,6 +17,10 @@ const Banner = () => {
             </div>
             
         </div>
+        <div className="absolute bottom-6 left-[164px]">
+            <BannerSearch></BannerSearch>
+        </div>
+       </div>
     );
 };
 
