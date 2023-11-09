@@ -2,8 +2,8 @@
 
 const BannerSearch = () => {
     return (
-        <div className="w-4/5 mx-auto">
-            <div className="flex flex-col">
+        <div className="hidden lg:inline lg:w-4/5 lg:mx-auto ">
+            <div className="flex flex-col ">
   <div className="-m-1.5 overflow-x-auto">
     <div className="p-1.5 min-w-full inline-block align-middle">
       <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
