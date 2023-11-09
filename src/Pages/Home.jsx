@@ -1,5 +1,6 @@
 import Banner from "../Component/Banner";
 import Destination from "../Component/Destination";
+import FAQsection from "./Home/FAQsection";
 import Featured from "./Home/Featured";
 import Tourtype from "./Home/Tourtype";
 import Whychosse from "./Home/Whychosse";
@@ -13,6 +14,7 @@ const Home = () => {
             <Whychosse></Whychosse>
             <Destination></Destination>
             <Featured></Featured>
+            <FAQsection></FAQsection>
         </div>
     );
 };
